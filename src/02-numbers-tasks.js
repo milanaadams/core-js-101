@@ -204,12 +204,11 @@ function roundToPowerOfTen(num, pow) {
  *   16 => false
  *   17 => true
  */
-function isPrime(/* n */) {
-  /* for (let i = Math.floor(n / 2); i > 1; i -= 1) {
+function isPrime(n) {
+  for (let i = Math.floor(n / 2); i > 1; i -= 1) {
     if (n % i === 0) return false;
   }
-  return true; */
-  throw new Error('Not implemented');
+  return true;
 }
 
 /**
