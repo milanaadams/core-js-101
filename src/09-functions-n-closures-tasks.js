@@ -64,8 +64,14 @@ function getPowerFunction(exponent) {
  *   getPolynom(8)     => y = 8
  *   getPolynom()      => null
  */
-function getPolynom() {
-  throw new Error('Not implemented');
+function getPolynom(...args) {
+  const polynom = (x) => {
+    if (args.length === 3) return (x ** 2 * args[0]) + (x * args[1]) + args[2];
+    if (args.length === 2) return x * args[0] + args[1];
+    if (args.length === 1) return args[0];
+    return null;
+  };
+  return polynom;
 }
 
 
@@ -83,8 +89,14 @@ function getPolynom() {
  *   ...
  *   memoizer() => the same random number  (next run, returns the previous cached result)
  */
-function memoize(/* func */) {
-  throw new Error('Not implemented');
+function memoize(func) {
+  const memory = {};
+  const call = () => {
+    if (memory.fn) return memory.fn;
+    memory.fn = func();
+    return memory.fn;
+  };
+  return call;
 }
 
 
@@ -104,6 +116,13 @@ function memoize(/* func */) {
  * retryer() => 2
  */
 function retry(/* func, attempts */) {
+  /* let result;
+  try {
+    result = () => func(attempts);
+  } catch (e) {
+    result = retry(func, attempts);
+  }
+  return result; */
   throw new Error('Not implemented');
 }
 
@@ -131,8 +150,17 @@ function retry(/* func, attempts */) {
  * cos(3.141592653589793) ends
  *
  */
-function logger(/* func, logFunc */) {
-  throw new Error('Not implemented');
+function logger(func, logFunc) {
+  const wrapper = (...args) => {
+    const str = JSON.stringify(args).slice(1, -1);
+
+    logFunc(`${func.name}(${str}) starts`);
+    const r = func(...args);
+    logFunc(`${func.name}(${str}) ends`);
+
+    return r;
+  };
+  return wrapper;
 }
 
 
@@ -149,8 +177,9 @@ function logger(/* func, logFunc */) {
  *   partialUsingArguments(fn, 'a','b','c')('d') => 'abcd'
  *   partialUsingArguments(fn, 'a','b','c','d')() => 'abcd'
  */
-function partialUsingArguments(/* fn, ...args1 */) {
-  throw new Error('Not implemented');
+function partialUsingArguments(fn, ...args1) {
+  const func = (...args) => fn(...args1, ...args);
+  return func;
 }
 
 
@@ -171,8 +200,15 @@ function partialUsingArguments(/* fn, ...args1 */) {
  *   getId4() => 7
  *   getId10() => 11
  */
-function getIdGeneratorFunction(/* startFrom */) {
-  throw new Error('Not implemented');
+function getIdGeneratorFunction(startFrom) {
+  let num = 0;
+  let begin = true;
+  const generator = () => {
+    if (begin) { begin = !begin; return startFrom; }
+    num += 1;
+    return num + startFrom;
+  };
+  return generator;
 }
 
 
